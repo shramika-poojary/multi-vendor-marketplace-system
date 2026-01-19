@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Entity
-@Data
 
 public class Cart {
 
@@ -34,14 +33,42 @@ public class Cart {
 
 	public Cart() {
 		super();
-		// TODO Auto-generated constructor stub
+		// TODO Auto-generate constructor stub
 	}
 
 	@OneToOne
-	@JoinColumn(name="customerId") //fk
+	@JoinColumn(name="customer_id",unique=true) //fk
 	private User customer;
 	
 	@OneToMany(mappedBy="cart")
 	private List<CartItem> cartItems=new ArrayList<>();
+
+
+
+	public int getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(int cartId) {
+		this.cartId = cartId;
+	}
+
+	public User getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(User customer) {
+		this.customer = customer;
+	}
+
+	public List<CartItem> getCartItems() {
+		return cartItems;
+	}
+
+	public void setCartItems(List<CartItem> cartItems) {
+		this.cartItems = cartItems;
+	}
+	
+	
 
 }

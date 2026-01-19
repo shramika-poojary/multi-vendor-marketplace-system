@@ -14,6 +14,8 @@ import com.data.enums.PaymentStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,8 +41,9 @@ public class Order {
 	private int orderId; //pk
 	
 	@NonNull
-	private Float total;
+	private double total;
 	@NonNull
+	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
 	
 	@NonNull
@@ -53,7 +56,7 @@ public class Order {
 	private LocalDateTime updatedAt;
 	
 	@ManyToOne
-	@JoinColumn(name="customerId") //fk
+	@JoinColumn(name="customer_id") //fk
 	private User customer;
 	
 	@OneToMany(mappedBy="order",cascade=CascadeType.ALL)

@@ -5,10 +5,13 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.data.enums.PaymentMethod;
 import com.data.enums.PaymentStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,10 +33,12 @@ public class Payment {
 	private int paymentId; //pk
 	
 	@NonNull
-	private String paymentMethod;
+	@Enumerated(EnumType.STRING)
+	private PaymentMethod paymentMethod;
 	@NonNull
-	private Float amount;
+	private double amount;
 	@NonNull
+	@Enumerated(EnumType.STRING)
 	private PaymentStatus paymentStatus;
 	@NonNull
 	private String transactionId;
