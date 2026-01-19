@@ -9,4 +9,6 @@ import com.data.model.OrderItem;
 public interface OrderItemRepository  extends JpaRepository<OrderItem, Integer> {
 
 	List<OrderItem> findByOrderOrderId(Integer orderId);
+	
+	boolean deleteByOrderOrderId(int orderId);
 }

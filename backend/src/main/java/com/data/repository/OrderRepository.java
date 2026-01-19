@@ -8,5 +8,5 @@ import com.data.model.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-	List<Order> findByUserUserId(Integer UserId);
+	List<Order> findByCustomerUserId(int UserId);
 }

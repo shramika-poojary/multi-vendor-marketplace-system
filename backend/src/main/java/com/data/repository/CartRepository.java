@@ -8,5 +8,7 @@ import com.data.model.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
-	Optional<Cart> findByUserUserId(Integer userId);
+	Optional<Cart> findByCustomerUserId(int userId);
+	
+
 }
