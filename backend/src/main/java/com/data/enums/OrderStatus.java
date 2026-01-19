@@ -1,6 +1,8 @@
 package com.data.enums;
 
 public enum OrderStatus {
-	SUCCESS,
-	PENDING
+	PLACED,
+    SHIPPED,
+    DELIVERED,
+    CANCELLED
 }
