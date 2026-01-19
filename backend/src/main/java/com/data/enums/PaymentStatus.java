@@ -1,7 +1,7 @@
 package com.data.enums;
 
 public enum PaymentStatus {
-	CREATED,
+	PENDING,
 	SUCCESS,
 	FAILED
 }
