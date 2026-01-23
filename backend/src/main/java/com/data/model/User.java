@@ -43,7 +43,11 @@ public class User {
 	
 	@NonNull
 	@NotBlank(message="This field is required")
-	private String name;
+	private String firstName;
+	
+	@NonNull
+	@NotBlank(message="This field is required")
+	private String lastName;
 
 	@NonNull
 	@NotBlank(message = "this field is required")
