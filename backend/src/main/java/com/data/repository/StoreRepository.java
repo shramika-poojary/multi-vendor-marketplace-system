@@ -11,7 +11,7 @@ public interface StoreRepository extends JpaRepository<Store,Integer> {
 	
 	Optional<Store> findByStoreId(Integer storeId);
 
-	List<Store> findByStoreVendorId(Integer vendorId); // one vendor can have multiple stores so we use list here 
+	List<Store> findByVendor_UserId(Integer userId); // one vendor can have multiple stores so we use list here 
 	
 
 }
