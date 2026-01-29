@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.data.dto.ProductResponseDTO;
 import com.data.exception.ResourceNotFoundException;
 import com.data.model.Product;
 import com.data.model.Store;
@@ -47,8 +48,17 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> getAllProductsByStoreId(int storeId) {
-		List<Product> product=repo.findByStoreStoreId(storeId);
+	public List<ProductResponseDTO> getAllProductsByStoreId(int storeId) {
+		List<ProductResponseDTO> product=repo.findByStoreStoreId(storeId).stream()
+				.map(p->new ProductResponseDTO(
+						p.getProductId(),
+	                    p.getProductName(),
+	                    p.getProductDescription(),
+	                    p.getPrice(),
+	                    p.getImageURL(),
+	                    p.getStock()
+						
+						)).toList();
 		
 		return product;
 		
