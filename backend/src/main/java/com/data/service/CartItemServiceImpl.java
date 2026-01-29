@@ -28,39 +28,70 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	@Autowired
 	private ProductRepository productRepo;
+	
+	@Autowired
+	private CartService cartService;
+//	@Override
+//	public CartItem addItemToCart(int cartId, int productId, int quantity) {
+//		Optional<Cart> cart=cartRepo.findById(cartId);
+//		if(cart.isPresent()) {
+//			Optional<CartItem> existingItem=repo.findByCartCartIdAndProductProductId(cartId, productId);
+//					if (existingItem.isPresent()) {
+//				        CartItem item = existingItem.get();
+//				        item.setQuantity(item.getQuantity() + quantity);
+//				        return repo.save(item);
+//				    }
+//			 Product product = productRepo.findById(productId)
+//			            .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+//
+//			    CartItem cartItem = new CartItem();
+//			    cartItem.setCart(cart.get());
+//			    cartItem.setProduct(product);
+//			    cartItem.setQuantity(quantity);
+//
+//			    return repo.save(cartItem);
+//		}else {
+//			throw new ResourceNotFoundException("Cart not found");
+//		}
+//		
+//	}
 	@Override
-	public CartItem addItemToCart(int cartId, int productId, int quantity) {
-		Optional<Cart> cart=cartRepo.findById(cartId);
-		if(cart.isPresent()) {
-			Optional<CartItem> existingItem=repo.findByCartCartIdAndProductProductId(cartId, productId);
-					if (existingItem.isPresent()) {
-				        CartItem item = existingItem.get();
-				        item.setQuantity(item.getQuantity() + quantity);
-				        return repo.save(item);
-				    }
-			 Product product = productRepo.findById(productId)
-			            .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+    public CartItem addItemToUserCart(int userId, int productId, int quantity) {
 
-			    CartItem cartItem = new CartItem();
-			    cartItem.setCart(cart.get());
-			    cartItem.setProduct(product);
-			    cartItem.setQuantity(quantity);
+        Cart cart = cartService.getCartByUser(userId);
 
-			    return repo.save(cartItem);
-		}else {
-			throw new ResourceNotFoundException("Cart not found");
-		}
-		
-	}
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        Optional<CartItem> existingItem =
+                repo.findByCartCartIdAndProductProductId(
+                        cart.getCartId(), productId
+                );
+
+        if (existingItem.isPresent()) {
+            CartItem item = existingItem.get();
+            item.setQuantity(item.getQuantity() + quantity);
+            return repo.save(item);
+        }
+
+        CartItem item = new CartItem();
+        item.setCart(cart);
+        item.setProduct(product);
+        item.setQuantity(quantity);
+
+        return repo.save(item);
+    }
 
 	@Override
-	public CartItem updateCartItem(int cartItemId, int quantity) {
+	public CartItem updateQuantity(int cartItemId, int quantity) {
+		if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be > 0");
+        }
 		CartItem item = repo.findById(cartItemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
-
+		
         item.setQuantity(quantity);
         
-
         return repo.save(item);
         		
 	}

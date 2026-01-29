@@ -34,14 +34,14 @@ public class CartServiceImpl implements CartService{
 	        throw new IllegalArgumentException("User is not a customer");
 	    }
 
-	    if (repo.findByCustomerUserId(customerId).isPresent()) {
-	        throw new IllegalStateException("Cart already exists for this customer");
-	    }
-
-	    Cart cart = new Cart();
-	    cart.setCustomer(customer);
-
-	    return repo.save(cart);	}
+	    return repo.findByCustomerUserId(customerId)
+	    		.orElseGet(()->{
+	    			Cart cart = new Cart();
+	    		    cart.setCustomer(customer);
+	    		    return repo.save(cart);
+	    		});
+	
+	}
 
 	@Override
 	public Cart getCartByUser(int customerId) {

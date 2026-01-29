@@ -6,8 +6,9 @@ import com.data.model.CartItem;
 
 public interface CartItemService {
 
-	CartItem addItemToCart(int cartId,int productId, int quantity);
-	CartItem updateCartItem(int cartItemId,int quantity);
+//	CartItem addItemToCart(int cartId,int productId, int quantity);
+	CartItem updateQuantity(int cartItemId,int quantity);
 	boolean removeCartItem(int cartItemId);
 	List<CartItem> getItemsByCart(int cartId);
+	CartItem addItemToUserCart(int userId, int productId, int quantity);
 }
