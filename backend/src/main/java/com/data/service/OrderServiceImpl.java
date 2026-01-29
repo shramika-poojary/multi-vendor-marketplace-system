@@ -11,8 +11,10 @@ import com.data.enums.OrderStatus;
 import com.data.exception.ResourceNotFoundException;
 import com.data.model.Cart;
 import com.data.model.Order;
+import com.data.model.OrderItem;
 import com.data.model.User;
 import com.data.repository.CartRepository;
+import com.data.repository.OrderItemRepository;
 import com.data.repository.OrderRepository;
 import com.data.repository.UserRepository;
 
@@ -30,6 +32,10 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepo;
+	
 	    
 	@Override
 	public Order placeOrder(int customerId) {
@@ -55,6 +61,16 @@ public class OrderServiceImpl implements OrderService {
 	        
 	        Order savedOrder = repo.save(order);
 
+	    
+	        cart.getCartItems().forEach(cartItem -> {
+	            OrderItem orderItem = new OrderItem();
+	            orderItem.setOrder(savedOrder);
+	            orderItem.setProduct(cartItem.getProduct());
+	            orderItem.setQuantity(cartItem.getQuantity());
+	            orderItem.setPrice(cartItem.getProduct().getPrice());
+	            orderItemRepo.save(orderItem); 
+	        });
+	        
 	        cart.getCartItems().clear();
 	        cartRepo.save(cart);
 
