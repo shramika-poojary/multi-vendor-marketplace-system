@@ -1,0 +1,9 @@
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  position: sticky;
+}
+
+.product-list img {
+  border-radius: 5px;
+}

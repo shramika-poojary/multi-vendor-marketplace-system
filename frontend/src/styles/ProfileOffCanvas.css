@@ -1,0 +1,47 @@
+.profile-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  font-size: 60px;
+  color: #3f51b5;
+}
+
+.profile-name {
+  margin-top: 8px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.profile-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-menu li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.profile-menu li:hover {
+  background-color: #f1f5f9;
+}
+
+.profile-menu i {
+  font-size: 1.1rem;
+  color: #3f51b5;
+}
+
+.profile-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+}

@@ -1,0 +1,94 @@
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e7ff, #f8fafc);
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.login-header h2 {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #1e293b;
+}
+
+.login-header p {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 25px;
+}
+
+.login-form .form-control {
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.login-form .form-label {
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.forgot-password {
+  font-size: 0.85rem;
+  color: #3f51b5;
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  background-color: #3f51b5;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #3344aa;
+}
+
+/* Divider */
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.login-divider span {
+  margin: 0 10px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+/* Footer */
+.login-footer p {
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.signup-link {
+  color: #3f51b5;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}

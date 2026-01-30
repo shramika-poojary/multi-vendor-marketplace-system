@@ -1,0 +1,121 @@
+.about-page {
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+}
+
+/* Hero Section */
+.about-hero {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f8f9ff, #eef2ff);
+}
+
+.about-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.about-hero p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Mission */
+.about-mission {
+  padding: 50px 20px;
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+}
+
+.about-mission h2 {
+  margin-bottom: 15px;
+}
+
+/* Core Values */
+.about-values {
+  background: #fafafa;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.value-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.value-card h3 {
+  margin-bottom: 10px;
+  color: #3f51b5;
+}
+
+/* Journey */
+.about-journey {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.journey-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.journey-steps div {
+  max-width: 250px;
+}
+
+.journey-steps span {
+  font-weight: bold;
+  color: #3f51b5;
+}
+
+/* CTA */
+.about-cta {
+  background: #3f51b5;
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.about-cta p {
+  margin: 10px 0 20px;
+}
+
+.cta-buttons button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 6px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.cta-buttons button {
+  background: white;
+  color: #3f51b5;
+}
+
+.cta-buttons .secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .about-hero h1 {
+    font-size: 2rem;
+  }
+}
