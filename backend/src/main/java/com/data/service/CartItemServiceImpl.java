@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.data.dto.CartResponseDTO;
+import com.data.dto.UpdateCartItemRequestDTO;
 import com.data.exception.ResourceNotFoundException;
 import com.data.model.Cart;
 import com.data.model.CartItem;
@@ -14,6 +16,7 @@ import com.data.repository.CartItemRepository;
 import com.data.repository.CartRepository;
 import com.data.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.Data;
 
 @Service
@@ -75,36 +78,66 @@ public class CartItemServiceImpl implements CartItemService {
         }
 
         CartItem item = new CartItem();
-        item.setCart(cart);
         item.setProduct(product);
         item.setQuantity(quantity);
-
+        item.setPrice(product.getPrice());
+        item.setSubTotal(product.getPrice() * quantity);
+        item.setCart(cart);
         return repo.save(item);
     }
 
 	@Override
-	public CartItem updateQuantity(int cartItemId, int quantity) {
-		if (quantity <= 0) {
-            throw new IllegalArgumentException("Quantity must be > 0");
-        }
-		CartItem item = repo.findById(cartItemId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
-		
-        item.setQuantity(quantity);
-        
-        return repo.save(item);
-        		
+	@Transactional
+	public CartResponseDTO updateQuantity(
+	        int cartItemId,
+	        UpdateCartItemRequestDTO request
+	) {
+	    CartItem item = repo.findById(cartItemId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
+
+	    Cart cart = item.getCart();
+
+	    if (request.getQuantity() <= 0) {
+	        repo.delete(item);
+	    } else {
+	        item.setQuantity(request.getQuantity());
+	        item.setSubTotal(item.getPrice() * request.getQuantity());
+	        repo.save(item);
+	    }
+
+	    recalculateCart(cart);
+
+	    return cartService.getCartResponse(cart); // ✅ FULL CART
 	}
+
 
 	@Override
-	public boolean removeCartItem(int cartItemId) {
-		 CartItem item = repo.findById(cartItemId)
-	                .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
+	@Transactional
+	public CartResponseDTO removeCartItem(int cartItemId) {
 
-	        repo.delete(item);
-	        return true;
+	    CartItem item = repo.findById(cartItemId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
+
+	    Cart cart = item.getCart();
+
+	    repo.delete(item);
+	    recalculateCart(cart);
+
+	    return cartService.getCartResponse(cart); // ✅ FULL CART
 	}
 
+	private void recalculateCart(Cart cart) {
+	    Double total = repo.findByCartCartId(cart.getCartId())
+	            .stream()
+	            .mapToDouble(CartItem::getSubTotal)
+	            .sum();
+
+	    cart.setTotalAmount(total);
+	    cartRepo.save(cart);
+	}
+
+
+	
 	@Override
 	public List<CartItem> getItemsByCart(int cartId) {
 		if (!cartRepo.existsById(cartId)) {

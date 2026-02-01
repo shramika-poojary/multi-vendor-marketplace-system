@@ -1,10 +1,13 @@
 package com.data.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.data.dto.CartItemResponseDTO;
+import com.data.dto.CartResponseDTO;
 import com.data.enums.Role;
 import com.data.exception.ResourceNotFoundException;
 import com.data.model.Cart;
@@ -44,14 +47,31 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public Cart getCartByUser(int customerId) {
-		Optional<Cart> cart = repo.findByCustomerUserId(customerId);
-		if(cart.isPresent()) {
-			return cart.get();
-		}else {
-			throw new ResourceNotFoundException("Cart not found for this customer");
-		}
-	
+	public CartResponseDTO getCartByUser(String email) {
+
+	    User user = userRepo.findByEmail(email)
+	            .orElseThrow(() -> new RuntimeException("User not found"));
+
+	    Cart cart = repo.findByCustomerUserId(user.getUserId())
+	            .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+	    List<CartItemResponseDTO> items = cart.getCartItems().stream()
+	            .map(item -> new CartItemResponseDTO(
+	            		item.getCartItemId(),
+	                    item.getProduct().getProductId(),
+	                    item.getProduct().getProductName(),
+	                    item.getProduct().getPrice(),
+	                    item.getQuantity(),
+	                    item.getProduct().getImageURL(),
+	                    item.getQuantity() * item.getProduct().getPrice()
+	            ))
+	            .toList();
+
+	    double total = items.stream()
+	            .mapToDouble(CartItemResponseDTO::getSubTotal)
+	            .sum();
+
+	    return new CartResponseDTO(cart.getCartId(), items, total);
 	}
 
 	@Override
@@ -59,6 +79,7 @@ public class CartServiceImpl implements CartService{
 		Optional<Cart> cart = repo.findByCustomerUserId(customerId);
 		if(cart.isPresent()) {
 			cart.get().getCartItems().clear();
+			cart.get().setTotalAmount(0);
 			repo.save(cart.get());
 			return true;
 			
@@ -73,4 +94,33 @@ public class CartServiceImpl implements CartService{
 	            .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
 	    return cart.getCartId();
 	}
+
+	@Override
+	public Cart getCartByUser(int customerId) {
+		Optional<Cart> cart=repo.findByCustomerUserId(customerId);
+		
+		return cart.get();
+	}
+
+	public CartResponseDTO getCartResponse(Cart cart) {
+
+	    List<CartItemResponseDTO> items = cart.getCartItems().stream()
+	        .map(item -> new CartItemResponseDTO(
+	            item.getCartItemId(),
+	            item.getProduct().getProductId(),
+	            item.getProduct().getProductName(),
+	            item.getProduct().getPrice(),
+	            item.getQuantity(),
+	            item.getProduct().getImageURL(),
+	            item.getSubTotal()
+	        ))
+	        .toList();
+
+	    return new CartResponseDTO(
+	        cart.getCartId(),
+	        items,
+	        cart.getTotalAmount()
+	    );
+	}
+
 }
