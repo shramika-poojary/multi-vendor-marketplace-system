@@ -25,7 +25,10 @@ public class CartItem {
 	
 	@NonNull
 	private int quantity;
-	
+	@NonNull
+	private float price;
+	@NonNull
+    private float subTotal;
 	@ManyToOne
 	@JoinColumn(name="cartId") //fk
 	private Cart cart;
