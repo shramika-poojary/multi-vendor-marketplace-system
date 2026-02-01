@@ -1,7 +1,9 @@
 package com.data.enums;
 
 public enum OrderStatus {
-	PLACED,
+	CREATED,  //order created
+	PENDING,  //razorpay opened
+	PLACED,  //payment success
     SHIPPED,
     DELIVERED,
     CANCELLED
