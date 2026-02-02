@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.data.dto.CartItemResponseDTO;
 import com.data.dto.CartRequestDTO;
+import com.data.dto.CartResponseDTO;
+import com.data.dto.UpdateCartItemRequestDTO;
 import com.data.model.Cart;
 import com.data.model.CartItem;
 import com.data.model.User;
@@ -101,11 +104,13 @@ public class CartController {
 //	}
 	
 	// 1️⃣ Get my cart
-    @GetMapping
-    public ResponseEntity<Cart> getMyCart(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(
-                cartService.getCartByUser(user.getUserId())
-        );
+    @GetMapping("get/cart")
+    public ResponseEntity<CartResponseDTO> getMyCart(@AuthenticationPrincipal UserDetails user) {
+        String email=user.getUsername();
+        
+        CartResponseDTO cart=cartService.getCartByUser(email);
+        return ResponseEntity.ok(cart);
+        
     }
 
     // 2️⃣ Add item to cart
@@ -125,20 +130,20 @@ public class CartController {
 
     // 3️⃣ Update quantity
     @PutMapping("/items/{cartItemId}")
-    public ResponseEntity<CartItem> updateItem(
+    public ResponseEntity<CartResponseDTO> updateItem(
             @PathVariable int cartItemId,
-            @RequestParam int quantity
+            @RequestBody UpdateCartItemRequestDTO request
     ) {
         return ResponseEntity.ok(
-                cartItemService.updateQuantity(cartItemId, quantity)
+                cartItemService.updateQuantity(cartItemId, request)
         );
     }
 
     // 4️⃣ Remove item
     @DeleteMapping("/items/{cartItemId}")
     public ResponseEntity<?> removeItem(@PathVariable int cartItemId) {
-        cartItemService.removeCartItem(cartItemId);
-        return ResponseEntity.ok("Item removed");
+       
+        return ResponseEntity.ok(cartItemService.removeCartItem(cartItemId));
     }
 
     // 5️⃣ Clear cart
