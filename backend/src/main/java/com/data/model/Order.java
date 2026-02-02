@@ -59,6 +59,9 @@ public class Order {
 	@JoinColumn(name="customer_id") //fk
 	private User customer;
 	
+	@OneToMany(mappedBy="order")
+	private  List<Payment> payments;
+	
 	@OneToMany(mappedBy="order",cascade=CascadeType.ALL)
 	private List<OrderItem> orderItems= new ArrayList<>();
 	

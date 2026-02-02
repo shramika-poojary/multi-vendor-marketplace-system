@@ -7,6 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.data.dto.OrderHistoryResponseDto;
+import com.data.dto.OrderItemDto;
+import com.data.dto.OrderResponseDto;
 import com.data.enums.OrderStatus;
 import com.data.exception.ResourceNotFoundException;
 import com.data.model.Cart;
@@ -38,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	    
 	@Override
-	public Order placeOrder(int customerId) {
+	public OrderResponseDto placeOrder(int customerId) {
 		
 		 User customer = userRepo.findById(customerId)
 	                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
@@ -55,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
 	                .sum();
 	        Order order = new Order();
 	        order.setCustomer(customer);
-	        order.setOrderStatus(OrderStatus.PLACED);
+	        order.setOrderStatus(OrderStatus.CREATED);
 	        order.setOrderDate(LocalDateTime.now());
 	        order.setTotal(total);
 	        
@@ -71,10 +74,17 @@ public class OrderServiceImpl implements OrderService {
 	            orderItemRepo.save(orderItem); 
 	        });
 	        
-	        cart.getCartItems().clear();
+	        //cart.getCartItems().clear();
 	        cartRepo.save(cart);
 
-	        return savedOrder;
+	       // return savedOrder;
+	        OrderResponseDto dto = new OrderResponseDto();
+	        dto.setOrderId(order.getOrderId());
+	        dto.setTotal(order.getTotal());
+	        dto.setOrderStatus(order.getOrderStatus());
+	        dto.setPaymentGatewayId(order.getPaymentGatewayId());
+	        
+	        return dto;
 	}
 
 	@Override
@@ -88,12 +98,38 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getOrdersByUser(int cutomerId) {
-		List<Order> orders=repo.findByCustomerUserId(cutomerId);
-		if (orders.isEmpty()) {
-            throw new ResourceNotFoundException("No orders found for this user");
-        }
-		return orders;
+	public List<OrderHistoryResponseDto> getOrdersByUser(int customerId) {
+
+	    List<Order> orders =
+	            repo.findByCustomerUserIdOrderByOrderDateDesc(customerId);
+
+	    if (orders.isEmpty()) {
+	        throw new ResourceNotFoundException("No orders found for this user");
+	    }
+
+	    return orders.stream().map(order -> {
+
+	        OrderHistoryResponseDto dto = new OrderHistoryResponseDto();
+	        dto.setOrderId(order.getOrderId());
+	        dto.setTotal(order.getTotal());
+	        dto.setOrderDate(order.getOrderDate());
+
+	        List<OrderItemDto> items = order.getOrderItems()
+	                .stream()
+	                .map(item -> {
+	                    OrderItemDto itemDto = new OrderItemDto();
+	                    itemDto.setPrice((float) item.getPrice());
+	                    itemDto.setQuantity(item.getQuantity());
+	                    itemDto.setProductName(item.getProduct().getProductName());
+	                    itemDto.setImageURL(item.getProduct().getImageURL());
+	                    return itemDto;
+	                })
+	                .toList();
+
+	        dto.setItems(items);
+	        return dto;
+
+	    }).toList();
 	}
 
 	@Override
