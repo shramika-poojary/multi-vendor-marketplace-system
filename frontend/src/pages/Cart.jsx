@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { getCart, updateCartItem, removeCartItem } from "../services/cartService";
-
+import { placeOrder } from "../services/orderService";
+import { Navigate, useNavigate } from "react-router-dom";
 function Cart() {
+  const navigate=useNavigate();
   const [cart, setCart] = useState(
     {
     cartId: null,
@@ -51,8 +53,10 @@ function Cart() {
                   className="btn btn-sm btn-outline-secondary"
                   onClick={() =>
                     updateCartItem(item.cartItemId, item.quantity + 1)
-                      .then(res => setCart(res.data))
-                  }
+                      .then(res => {
+                        console.log(res.data);
+                        setCart(res.data)})
+                  } 
                 >
                   +
                 </button>
@@ -73,18 +77,24 @@ function Cart() {
               </p>
             </div>
 
-            <img
-              src={item.imageURL}
-              alt={item.productName}
-              width="100"
-            />
+<img
+  src={
+     `http://localhost:8080${item.imageURL}`
+     
+  }
+  alt={item.productName}
+  className="store-image"
+/>
+            
           </div>
         </div>
       ))}
 
       <h4>Total: ₹{cart.totalAmount}</h4>
 
-      <button className="btn btn-success mt-3">
+      <button className="btn btn-success mt-3" onClick={()=>
+       navigate("/order-summary")
+      }>
         Checkout
       </button>
     </div>
