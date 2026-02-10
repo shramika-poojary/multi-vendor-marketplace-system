@@ -5,11 +5,16 @@ const SelectStore=()=>{
     const [stores,setStores]=useState([]);
     const navigate=useNavigate();
 
-    useEffect(()=>{
-        getMyStores()
-        .then(res=>setStores(res.data))
-        .catch(err=>console.log(err));
-    },[]);
+    useEffect(() => {
+  getMyStores()
+    .then(res => setStores(res.data)
+  )
+    .catch(err => {
+      console.error(err);
+      alert("You are not authorized to access your stores.");
+    });
+}, []);
+
 
     return(
          <div className="container mt-4">
