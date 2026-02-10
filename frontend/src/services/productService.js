@@ -23,3 +23,19 @@ export const addProduct = (storeId, productData) => {
     `${BASE_URL}/api/product/store/${storeId}`
   );
 };
+
+export const uploadProductImage = (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  return axios.post(
+    `${BASE_URL}/api/product/upload`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        
+      },
+    }
+  );
+};
