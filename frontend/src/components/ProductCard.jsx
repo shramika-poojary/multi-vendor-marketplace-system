@@ -19,7 +19,18 @@ function ProductCard({ product }) {
   return (
     <div className="col-md-3 mb-4">
       <div className="card h-100 shadow-sm">
-        <div className="bg-light" style={{ height: "150px" }}></div>
+        <div className="bg-light" style={{ height: "150px" }}>
+
+          <img
+  src={
+     product.imageURL
+      ? `http://localhost:8080${product.imageURL}`
+      : "https://via.placeholder.com/300x180?text=Product+imageURL"
+  }
+  alt={product.productName}
+  className="store-image"
+/>
+        </div>
 
         <div className="card-body text-center">
           <h4>{product.productName}</h4>

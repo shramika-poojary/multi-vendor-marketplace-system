@@ -24,7 +24,7 @@ const ProfileOffcanvas = () => {
       <div className="offcanvas-body">
         <div className="profile-info text-center">
           <i className="bi bi-person-circle fs-1"></i>
-          <p className="mt-2">{role ? role : "Guest"}</p>
+          
         </div>
 
         <ul className="profile-menu">
@@ -42,15 +42,9 @@ const ProfileOffcanvas = () => {
           {/* ---------- CUSTOMER ---------- */}
           {role === "ROLE_CUSTOMER" && (
             <>
+              
               <li>
-                <Link to="/profile" className="profile-link">
-                  <i className="bi bi-person me-2"></i>
-                  My Profile
-                </Link>
-              </li>
-
-              <li>
-                <Link to="/orders" className="profile-link">
+                <Link to="/order-history" className="profile-link">
                   <i className="bi bi-bag-check me-2"></i>
                   My Orders
                 </Link>
