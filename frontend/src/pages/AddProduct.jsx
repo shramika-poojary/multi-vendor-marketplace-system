@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { addProduct } from "../services/productService";
+import { addProduct, uploadProductImage } from "../services/productService";
 
 const AddProduct = () => {
-  const { storeId } = useParams();   
+  const { storeId } = useParams();
   const navigate = useNavigate();
-  
+
   const [product, setProduct] = useState({
     productName: "",
     productDescription: "",
     price: "",
-    imageURL: "",
     stock: "",
+    imageURL: "",
   });
+
+  const [imageFile, setImageFile] = useState(null);
 
   if (!storeId) {
     return <p className="text-danger">Store not selected</p>;
@@ -22,12 +24,30 @@ const AddProduct = () => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await addProduct(storeId, product);
+      
+      let imageUrl = "";
+      if (imageFile) {
+        const res = await uploadProductImage(imageFile);
+        imageUrl = res.data;
+      }
+
+      
+      await addProduct(storeId, {
+        ...product,
+        imageURL: imageUrl,
+      });
+
       alert("Product added successfully");
       navigate("/seller-dashboard");
+
     } catch (err) {
       console.error(err);
       alert("Error adding product");
@@ -74,10 +94,9 @@ const AddProduct = () => {
         />
 
         <input
+          type="file"
           className="form-control mb-3"
-          name="imageURL"
-          placeholder="Image URL"
-          onChange={handleChange}
+          onChange={handleImageChange}
           required
         />
 
