@@ -37,6 +37,8 @@ public class PaymentServiceImpl implements PaymentService{
 		Payment payment = new Payment();
         payment.setOrder(order);
         payment.setAmount(order.getTotal());
+        System.out.println("Yout Order ID Is:"+order.getOrderId());
+        System.out.println("Yout Total Payment Is:"+order.getTotal());
         payment.setPaymentMethod(method);
         payment.setPaymentStatus(PaymentStatus.PENDING);
         payment.setTransactionId("TXN-" + System.currentTimeMillis());
