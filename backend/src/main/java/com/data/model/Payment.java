@@ -16,6 +16,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,7 +46,7 @@ public class Payment {
 	@CreatedDate
     private LocalDateTime paymentDate;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="orderId") //fk
 	private Order order;
 
