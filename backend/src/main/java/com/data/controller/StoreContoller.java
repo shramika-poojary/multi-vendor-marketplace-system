@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,15 +35,17 @@ public class StoreContoller {
 
 	@Autowired
 	private StoreServiceImpl service;
+
 	
-	@PreAuthorize("hasRole('VENDOR')")
 	@PostMapping("stores")
-	public ResponseEntity<?> create_store(@RequestBody Store store, Authentication authentication){
-		String email=authentication.getName();
+	public ResponseEntity<?> create_store(@RequestBody Store store,  @AuthenticationPrincipal UserDetails user){
+		System.out.println("Inside Create store method");
+		
+		String email=user.getUsername();
 		Store store1=service.createStore(store, email);
 		return new ResponseEntity(store1,HttpStatus.CREATED);
 	}
-	
+	 
 	@PreAuthorize("hasRole('VENDOR')")
 	@GetMapping("get/stores/vendor")
 	public ResponseEntity<?> get_store_by_vendorId(Authentication authentication){
@@ -66,11 +70,12 @@ public class StoreContoller {
 	}
 	
 	//Image upload
+	
 		@PostMapping("/upload")
 	    public String uploadImage(@RequestParam("file") MultipartFile file)
 	            throws IOException, IllegalStateException, java.io.IOException {
 				String fileName = file.getOriginalFilename();
-				String path = "C:\\Users\\Shramika\\OneDrive\\Desktop\\ITvedant\\EventVerse\\images\\" + fileName;
+				String path = "C:\\multi-vendor-marketplace-system\\backend\\uploads\\stores\\" + fileName;
 
 				file.transferTo(new File(path));
 
