@@ -14,6 +14,10 @@ import SelectStore from "./pages/SelectStore";
 import AddProduct from "./pages/AddProduct";
 import StoreDetails from "./pages/storeDetails";
 import Cart from "./pages/Cart";
+import OrderSummary from "./pages/OrderSummary";
+import Payment from "./pages/Payment";
+import OrderSuccess from "./pages/OrderSuccess";
+import OrderHistory from "./pages/OrderHistory";
 
 
 function App(){
@@ -34,6 +38,10 @@ function App(){
       <Route path="/add-product/:storeId" element={<AddProduct/>} />
       <Route path="/stores/:id" element={<StoreDetails/>} />
       <Route path="/cart" element={<Cart/>}></Route>
+      <Route path="/order-summary" element={<OrderSummary/>}></Route>
+      <Route path="/payment" element={<Payment/>}></Route>
+      <Route path="/order-success" element={<OrderSuccess/>} />
+      <Route path="/order-history" element={<OrderHistory/>} /> 
     </Routes>
     <Footer/>
 
