@@ -10,7 +10,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 
@@ -28,6 +30,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.data.repository.UserRepository;
 
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 	
 	
@@ -92,6 +95,9 @@ public class SecurityConfig {
             		 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers(HttpMethod.POST,"/api/auth/login","/api/auth/register").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/store/stores","/api/product/store/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/store/stores").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/store/upload").permitAll()
+                    .requestMatchers("/images/**").permitAll()
                     .requestMatchers("/api/admin/**").hasRole("ADMIN")
                     .requestMatchers("/api/user/**").hasRole("CUSTOMER")
                     .requestMatchers("/api/vendor/**").hasRole("VENDOR")
