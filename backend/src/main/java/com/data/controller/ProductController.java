@@ -52,17 +52,18 @@ public class ProductController {
 	}
 
 	//Image upload
-		@PostMapping("/upload")
-	    public String uploadImage(@RequestParam("file") MultipartFile file)
-	            throws IOException, IllegalStateException, java.io.IOException {
-				String fileName = file.getOriginalFilename();
-				String path = "C:\\Users\\Shramika\\OneDrive\\Desktop\\ITvedant\\EventVerse\\images\\" + fileName;
+	
+			@PostMapping("/upload")
+		    public String uploadImage(@RequestParam("file") MultipartFile file)
+		            throws IOException, IllegalStateException, java.io.IOException {
+					String fileName = file.getOriginalFilename();
+					String path = "C:\\multi-vendor-marketplace-system\\backend\\uploads\\stores\\" + fileName;
 
-				file.transferTo(new File(path));
+					file.transferTo(new File(path));
 
-				return "/images/" + file.getOriginalFilename();
-			
+					return "/images/" + file.getOriginalFilename();
+				
 
-	    }
+		    }
 	
 }
