@@ -34,7 +34,7 @@ function ProductCard({ product }) {
 
         <div className="card-body text-center">
           <h4>{product.productName}</h4>
-           <h6>{product.productDescription}</h6>
+           <h6 className="text-muted">{product.productDescription}</h6>
           <p>₹{product.price}</p>
 
           <button className="btn btn-sm btn-success" onClick={handleAddToCart}>
