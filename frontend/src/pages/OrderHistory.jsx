@@ -53,7 +53,11 @@ function OrderHistory() {
         <div key={index} className="d-flex justify-content-between">
           <div className="d-flex align-items-center">
       <img 
-        src={item.imageURL} 
+       src={
+              item.imageURL
+                ? `http://localhost:8080${item.imageURL}`
+                : "https://via.placeholder.com/300x180?text=Product+imageURL"
+            }
         alt={item.productName} 
         style={{ width: "100px", height: "100px", objectFit: "cover", marginRight: "10px", borderRadius: "5px" }}
       />
