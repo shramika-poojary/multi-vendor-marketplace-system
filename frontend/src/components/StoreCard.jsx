@@ -22,7 +22,7 @@ function StoreCard({ store }) {
 
         {/* Body */}
         <div className="card-body text-center d-flex flex-column">
-          <h5 className="card-title fw-bold">
+          <h5 className="card-title fw-bold store-name">
             {store.storeName}
           </h5>
 

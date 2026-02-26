@@ -14,8 +14,9 @@
   justify-content: center;
   background: #f8f9fa;
   border-bottom: 1px solid #eee;
-}
-
+} 
+  
+  
 .store-image {
   max-height: 100%;
   max-width: 100%;
@@ -28,4 +29,30 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.home-featured .store-image-wrapper {
+  height:200px;  
+  width:200px;
+}
+
+.home-featured .store-image {
+  object-fit: contain;  /* better for logos */
+  padding: 20px;
+}
+.home-featured .col-md-4 {
+  flex: unset !important;
+  max-width: unset !important;
+  width: 100%;
+}
+.home-featured .store-card {
+  align-items: center;
+}
+
+.home-featured .btn{
+  width:100%;
+}
+
+.outer-div{
+  background-color: rgb(140, 144, 243);
 }
