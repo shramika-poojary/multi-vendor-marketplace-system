@@ -79,9 +79,10 @@ function Cart() {
 
 <img
   src={
-     `http://localhost:8080${item.imageURL}`
-     
-  }
+              item.imageUrl
+                ? `http://localhost:8080${item.imageUrl}`
+                : "https://via.placeholder.com/300x180?text=Product+imageURL"
+            }
   alt={item.productName}
   className="store-image"
 />
