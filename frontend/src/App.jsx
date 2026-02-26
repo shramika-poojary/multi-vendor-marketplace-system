@@ -21,8 +21,8 @@ import OrderHistory from "./pages/OrderHistory";
 
 
 function App(){
-  return(<>
-
+  return(
+<>
   <Navbar/>
   <ProfileOffcanvas/>
     <Routes>
