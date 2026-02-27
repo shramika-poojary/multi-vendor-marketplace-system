@@ -62,6 +62,43 @@ The project focuses on **REST API development, authentication, database modeling
 
 ---
 
+## 🏗️ Architecture
+
+The backend follows a layered architecture:
+
+- **Controller Layer** – Handles HTTP requests and responses  
+- **Service Layer** – Contains business logic  
+- **Repository Layer** – Manages database interaction using JPA  
+- **Security Layer** – Implements JWT authentication and role-based authorization  
+- **DTO Layer** – Transfers data between layers securely
+- **Model Layer** – Represents database entities   
+- **Exception Layer** –  Handles global and custom exceptions  
+
+This separation ensures scalability, maintainability, and clean code structure.
+
+---
+## 📂 Project Structure
+```multi-vendor-marketplace-system
+│
+├── backend
+│   ├── controller
+│   ├── dto
+│   ├── service
+│   ├── repository
+│   ├── model
+│   ├── exception
+│   ├── security
+│   └── config
+│
+├── frontend
+│   ├── components
+│   ├── pages
+│   ├── services
+│   ├── styles
+│   └── assets
+│
+└── README.md
+```
 ## 🔄 System Workflow
 
 1. Vendors register and manage product listings  
@@ -71,15 +108,6 @@ The project focuses on **REST API development, authentication, database modeling
 5. Customers view order history  
 
 ---
-
-## 🎯 Impact
-
-- Simulates real-world multi-vendor marketplace behavior  
-- Ensures secure and scalable backend architecture  
-- Improves maintainability through modular design  
-
----
-
 ## 🔗 Sample API Endpoints
 
 - `POST /api/auth/login` – User authentication  
@@ -91,8 +119,55 @@ The project focuses on **REST API development, authentication, database modeling
 - `GET /api/orders/user/{id}` – View order history  
 
 ---
+## ▶️ How to Run the Project
+
+### 🔹 Backend Setup
+
+1. Navigate to backend folder: cd backend
+2. Configure MySQL database in `application.properties`
+3. Run Spring Boot application
+4. Backend runs on:  `http://localhost:8080`
+
+### 🔹 Frontend Setup
+
+1. Navigate to frontend folder: cd frontend
+2. Install dependencies: npm install
+3. Start development server: npm run dev
+4. Frontend runs on:  `http://localhost:5173`
+
+---
+## 🎯 Impact
+
+- Simulates real-world multi-vendor marketplace behavior  
+- Ensures secure and scalable backend architecture  
+- Improves maintainability through modular design  
+
+---
+## 📸 Screenshots
+
+### 🏠 Home Page
+<p align="center">
+  <img src="screenshots/home.png" width="800"/>
+</p>
+
+
+### 🛒 Cart Page
+<p align="center">
+  <img src="screenshots/cart.png" width="800"/>
+</p>
+
+### 🏬 Store Page
+<p align="center">
+  <img src="screenshots/store.png" width="800"/>
+</p>
+
+
 
 ## 👤 Author
 
 **Shramika Poojary**  
 GitHub: [ShramikaPoojary](https://github.com/shramika-poojary)
+
+## 🔮 Future Enhancements
+- Email notifications  
+- Cloud deployment 
