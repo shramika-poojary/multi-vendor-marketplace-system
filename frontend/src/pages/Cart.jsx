@@ -101,7 +101,7 @@ function Cart() {
           <h4>Total: ₹{cart.totalAmount}</h4>
 
           <button
-            className="btn btn-success mt-3"
+            className="btn btn-warning mt-3"
             onClick={() => navigate("/order-summary")}
           >
             Checkout
