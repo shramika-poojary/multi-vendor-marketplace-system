@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { getCart, updateCartItem, removeCartItem } from "../services/cartService";
 import { placeOrder } from "../services/orderService";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 function Cart() {
-  const navigate=useNavigate();
-  const [cart, setCart] = useState(
-    {
+  const navigate = useNavigate();
+
+  const [cart, setCart] = useState({
     cartId: null,
     items: [],
     totalAmount: 0
-    }
-  );
+  });
 
   useEffect(() => {
     getCart()
@@ -21,83 +21,93 @@ function Cart() {
       .catch(err => console.error(err));
   }, []);
 
-   
   return (
     <div className="container mt-4">
       <h3>My Cart</h3>
 
-      {cart.items.map(item => (
-        <div key={item.cartItemId} className="card mb-3 p-3">
-          <div className="d-flex justify-content-between align-items-center">
-
-            <div>
-              <h5>{item.productName}</h5>
-              <p>₹{item.price}</p>
-
-              {/* Quantity controls */}
-              <div className="d-flex align-items-center">
-                <button
-                  className="btn btn-sm btn-outline-secondary"
-                  disabled={item.quantity <= 1}
-                  onClick={() =>
-                    updateCartItem(item.cartItemId, item.quantity - 1)
-                      .then(res => setCart(res.data))
-                  }
-                >
-                  -
-                </button>
-
-                <span className="mx-2">{item.quantity}</span>
-
-                <button
-                  className="btn btn-sm btn-outline-secondary"
-                  onClick={() =>
-                    updateCartItem(item.cartItemId, item.quantity + 1)
-                      .then(res => {
-                        console.log(res.data);
-                        setCart(res.data)})
-                  } 
-                >
-                  +
-                </button>
-
-                <button
-                  className="btn btn-sm btn-outline-danger ms-3"
-                  onClick={() =>
-                    removeCartItem(item.cartItemId)
-                      .then(res => setCart(res.data))
-                  }
-                >
-                  Remove
-                </button>
-              </div>
-
-              <p className="mt-2">
-                Subtotal: ₹{item.subTotal}
-              </p>
-            </div>
-
-<img
-  src={
-              item.imageUrl
-                ? `http://localhost:8080${item.imageUrl}`
-                : "https://via.placeholder.com/300x180?text=Product+imageURL"
-            }
-  alt={item.productName}
-  className="store-image"
-/>
-            
-          </div>
+      {/* ✅ Empty Cart Condition Added */}
+      {cart.items.length === 0 ? (
+        <div className="text-center mt-4">
+          <h5>Your Cart is Empty 🛒</h5>
+          <p>Add some products to see them here.</p>
         </div>
-      ))}
+      ) : (
+        <>
+          {cart.items.map(item => (
+            <div key={item.cartItemId} className="card mb-3 p-3">
+              <div className="d-flex justify-content-between align-items-center">
 
-      <h4>Total: ₹{cart.totalAmount}</h4>
+                <div>
+                  <h5>{item.productName}</h5>
+                  <p>₹{item.price}</p>
 
-      <button className="btn btn-success mt-3" onClick={()=>
-       navigate("/order-summary")
-      }>
-        Checkout
-      </button>
+                  {/* Quantity controls */}
+                  <div className="d-flex align-items-center">
+                    <button
+                      className="btn btn-sm btn-outline-secondary"
+                      disabled={item.quantity <= 1}
+                      onClick={() =>
+                        updateCartItem(item.cartItemId, item.quantity - 1)
+                          .then(res => setCart(res.data))
+                      }
+                    >
+                      -
+                    </button>
+
+                    <span className="mx-2">{item.quantity}</span>
+
+                    <button
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() =>
+                        updateCartItem(item.cartItemId, item.quantity + 1)
+                          .then(res => {
+                            console.log(res.data);
+                            setCart(res.data);
+                          })
+                      }
+                    >
+                      +
+                    </button>
+
+                    <button
+                      className="btn btn-sm btn-outline-danger ms-3"
+                      onClick={() =>
+                        removeCartItem(item.cartItemId)
+                          .then(res => setCart(res.data))
+                      }
+                    >
+                      Remove
+                    </button>
+                  </div>
+
+                  <p className="mt-2">
+                    Subtotal: ₹{item.subTotal}
+                  </p>
+                </div>
+
+                <img
+                  src={
+                    item.imageUrl
+                      ? `http://localhost:8080${item.imageUrl}`
+                      : "https://via.placeholder.com/300x180?text=Product+imageURL"
+                  }
+                  alt={item.productName}
+                  className="store-image"
+                />
+              </div>
+            </div>
+          ))}
+
+          <h4>Total: ₹{cart.totalAmount}</h4>
+
+          <button
+            className="btn btn-success mt-3"
+            onClick={() => navigate("/order-summary")}
+          >
+            Checkout
+          </button>
+        </>
+      )}
     </div>
   );
 }
