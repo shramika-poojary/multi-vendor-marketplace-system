@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,6 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
 
-        // 1️⃣ Authenticate credentials
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
@@ -46,20 +46,20 @@ public class AuthController {
                         )
                 );
 
-        // 2️⃣ Load user details from DB
+       
         UserDetails userDetails =
                 userDetailsService.loadUserByUsername(request.getEmail());
 
-        // 3️⃣ Generate JWT
+      
         String token = jwtUtil.generateToken(userDetails);
 
-        // 4️⃣ Extract role
+       
         String role = userDetails.getAuthorities()
                 .iterator()
                 .next()
-                .getAuthority(); // ROLE_ADMIN / ROLE_CUSTOMER / ROLE_VENDOR
+                .getAuthority(); 
 
-        // 5️⃣ Send response
+       
         return new LoginResponse(
                 token,
                 userDetails.getUsername(),
@@ -72,5 +72,6 @@ public class AuthController {
         service.registerUser(user);
         return new ResponseEntity<>("User Registered successfully",HttpStatus.OK);
     }
+    
     
 }
